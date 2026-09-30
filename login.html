@@ -2,20 +2,416 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Login - Meu Financeiro</title>
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            width: 380px;
+            max-width: 90%;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.12);
+
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            color: #172554;
+        }
+
+        .descricao {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        form {
+            text-align: left;
+        }
+
+        label {
+            display: block;
+
+            margin-top: 15px;
+            margin-bottom: 6px;
+
+            font-weight: bold;
+
+            color: #374151;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+
+            border-color: #2563eb;
+        }
+
+        .botao-entrar {
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .botao-entrar:hover {
+            background: #1d4ed8;
+        }
+
+        .botao-cadastro {
+            width: 100%;
+
+            margin-top: 10px;
+
+            padding: 12px;
+
+            border: 1px solid #2563eb;
+
+            border-radius: 8px;
+
+            background: white;
+
+            color: #2563eb;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .mensagem {
+            margin-top: 15px;
+
+            color: #dc2626;
+
+            font-size: 14px;
+
+            min-height: 20px;
+        }
+
+        .linha {
+            margin: 25px 0;
+
+            border: 0;
+
+            border-top: 1px solid #e5e7eb;
+        }
+
+    </style>
+
 </head>
 
-<body class="pagina-login">
 
-    <div class="login-container">
+<body>
 
-        <div class="login-card">
 
-            <div class="login-logo">💰</div>
+    <div class="login-card">
 
-            <h1>Meu Financeiro</h1>
+        <div class="logo">
+            💰
+        </div>
+
+
+        <h1>
+            Meu Financeiro
+        </h1>
+
+
+        <p class="descricao">
+            Entre para acessar sua gestão financeira
+        </p>
+
+
+        <form id="loginForm">
+
+            <label for="usuario">
+                Usuário
+            </label>
+
+            <input
+                type="text"
+                id="usuario"
+                placeholder="Digite seu usuário"
+                required
+            >
+
+
+            <label for="senha">
+                Senha
+            </label>
+
+            <input
+                type="password"
+                id="senha"
+                placeholder="Digite sua senha"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="botao-entrar"
+            >
+                Entrar
+            </button>
+
+
+            <div
+                id="mensagem"
+                class="mensagem"
+            ></div>
+
+        </form>
+
+
+        <hr class="linha">
+
+
+        <button
+            type="button"
+            class="botao-cadastro"
+            onclick="criarConta()"
+        >
+            Criar nova conta
+        </button>
+
+    </div>
+
+
+<script>
+
+
+    // Cria o usuário administrador na primeira utilização
+
+    if (!localStorage.getItem("usuarios")) {
+
+        const usuarios = [
+
+            {
+                usuario: "admin",
+                senha: "123456"
+            }
+
+        ];
+
+        localStorage.setItem(
+            "usuarios",
+            JSON.stringify(usuarios)
+        );
+
+    }
+
+
+    // LOGIN
+
+    document
+        .getElementById("loginForm")
+        .addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                const usuario =
+                    document
+                    .getElementById("usuario")
+                    .value
+                    .trim();
+
+
+                const senha =
+                    document
+                    .getElementById("senha")
+                    .value;
+
+
+                const usuarios =
+                    JSON.parse(
+                        localStorage.getItem("usuarios")
+                    ) || [];
+
+
+                const encontrado =
+                    usuarios.find(
+                        function(conta) {
+
+                            return (
+                                conta.usuario === usuario &&
+                                conta.senha === senha
+                            );
+
+                        }
+                    );
+
+
+                if (encontrado) {
+
+                    localStorage.setItem(
+                        "usuarioLogado",
+                        "true"
+                    );
+
+
+                    localStorage.setItem(
+                        "usuarioAtual",
+                        usuario
+                    );
+
+
+                    window.location.href =
+                        "index.html";
+
+                }
+
+                else {
+
+                    document
+                        .getElementById("mensagem")
+                        .textContent =
+                        "Usuário ou senha incorretos.";
+
+                }
+
+            }
+        );
+
+
+    // CRIAR CONTA
+
+    function criarConta() {
+
+        const usuario =
+            prompt(
+                "Digite o nome do novo usuário:"
+            );
+
+
+        if (!usuario) {
+            return;
+        }
+
+
+        const senha =
+            prompt(
+                "Digite a senha:"
+            );
+
+
+        if (!senha) {
+            return;
+        }
+
+
+        const usuarios =
+            JSON.parse(
+                localStorage.getItem("usuarios")
+            ) || [];
+
+
+        const existe =
+            usuarios.some(
+                function(conta) {
+
+                    return conta.usuario === usuario;
+
+                }
+            );
+
+
+        if (existe) {
+
+            alert(
+                "Esse usuário já existe."
+            );
+
+            return;
+
+        }
+
+
+        usuarios.push({
+
+            usuario: usuario,
+
+            senha: senha
+
+        });
+
+
+        localStorage.setItem(
+            "usuarios",
+            JSON.stringify(usuarios)
+        );
+
+
+        alert(
+            "Conta criada! Agora faça login."
+        );
+
+    }
+
+
+</script>
+
+
+</body>
+
+</html>
