@@ -20,6 +20,18 @@
     <div class="logo">
         💰 Gestão Financeira
     </div>
+<div class="usuario-area">
+
+        <span id="usuarioNome"></span>
+
+        <button
+            onclick="sair()"
+            class="botao-sair"
+        >
+            Sair
+        </button>
+
+    </div>
 
 </header>
 
@@ -251,15 +263,48 @@
 </main>
 <script>
 
-    if (
-        localStorage.getItem("usuarioLogado")
-        !== "true"
-    ) {
+    const usuarioLogado =
+        localStorage.getItem("usuarioLogado");
+
+    if (usuarioLogado !== "true") {
+
+        window.location.href = "login.html";
+
+    }
+
+
+    const usuarioAtual =
+        localStorage.getItem("usuarioAtual");
+
+
+    const usuarioNome =
+        document.getElementById("usuarioNome");
+
+
+    if (usuarioNome && usuarioAtual) {
+
+        usuarioNome.textContent =
+            "Olá, " + usuarioAtual;
+
+    }
+
+
+    function sair() {
+
+        localStorage.removeItem(
+            "usuarioLogado"
+        );
+
+        localStorage.removeItem(
+            "usuarioAtual"
+        );
 
         window.location.href =
             "login.html";
 
     }
+
+</script>
 
 </script>
 

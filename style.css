@@ -462,4 +462,70 @@ button:hover {
     font-size: 14px;
     margin-top: 15px;
 }
+/* =========================
+   USUARIO E LOGOUT
+========================= */
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.usuario-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+
+#usuarioNome {
+    font-weight: bold;
+}
+
+
+.botao-sair {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+.botao-sair:hover {
+    background: #b91c1c;
+}
+
+
+.botao-cadastro {
+    width: 100%;
+    background: transparent;
+    color: #2563eb;
+    border: 1px solid #2563eb;
+    padding: 11px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+.botao-cadastro:hover {
+    background: #eff6ff;
+}
+
+
+.login-card hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 25px 0;
+}
+
+
+.cadastro-texto {
+    margin-bottom: 10px !important;
+}
+
 }
